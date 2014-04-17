@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -82,6 +84,7 @@ public class ToolUtil {
 //		destDir = destDir.endsWith("\\") ? destDir : destDir + "\\";
 		try {
 
+	
 			File zipFile = new File(zipfile);
 			InputStream is = new FileInputStream(zipFile);
 			ZipInputStream zis = new ZipInputStream(is);
@@ -89,6 +92,21 @@ public class ToolUtil {
 			System.out.println("开始解压:" + zipFile.getName() + "...");
 			while ((entry = zis.getNextEntry()) != null) {
 			String zipPath = entry.getName();
+			
+			//-------------------------------------------------------------
+			//为了去掉so文件的版本号，确保同一文件可以成功对比
+			if (zipPath.endsWith(".so")) {
+//				System.out.println(zipPath);
+				Pattern regex = Pattern.compile("-[0-9.]+\\d");
+				Matcher regexMatcher = regex.matcher(zipPath);
+				if(regexMatcher.find()){
+					zipPath = zipPath.replaceAll(regexMatcher.group(), "");
+//					System.out.println(zipPath);
+				}
+				
+			}
+			//-------------------------------------------------------------
+			
 			try {
 			if (entry.isDirectory()) {
 			File zipFolder = new File(destDir + File.separator + zipPath);
@@ -153,7 +171,6 @@ public class ToolUtil {
 //		}
 	}
 	
-	
 	public static void deleteExistFile(String oldfolder,String newFolder,String reportpath){
 		File Existedreport = new File(reportpath);
 		if (Existedreport.isFile() && Existedreport.exists()) {
@@ -188,6 +205,7 @@ public class ToolUtil {
 				}				
 			}
 			Folder.delete(); //删除空文件夹
+//			System.out.println(folder + "文件夹已清理");
 		}
 		else {
 			System.out.println("文件夹不存在，无需清理。");
@@ -267,11 +285,8 @@ public class ToolUtil {
 //		}		
 	}
 //	
-//	public static void main(String[] args) throws Exception {
-//////		delAllPath("D:\\compare\\new");
-////		unZip("D:\\compare\\MobileAV_1.0.0.1108.zip", "D:\\compare\\old");
-//		runCommend();
-//		System.out.println("成功");
-//	}
+	public static void main(String[] args) throws Exception {
+		unZip("D:\\TestPackage\\MobileAV_1.0.0.1109.zip", "D:\\compare\\old");
+	}
 	
 }

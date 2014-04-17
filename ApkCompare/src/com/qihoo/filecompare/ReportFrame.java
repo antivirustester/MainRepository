@@ -223,7 +223,7 @@ public class ReportFrame {
 		    			"<td class=border_left ><p class=normal_text align='center'>"+ changedFile +"</p></td>" +
 		    			"<td class=border_left ><p class=normal_text align='center'>"+ "" +"</p></td>" +
 		    			"<td class=border_left ><p class=normal_text align='center'>"+ newSize +"</p></td>" +
-		    			"<td class=border_left ><p class=result_ok align='center'><font color='#00CC33'>"+ fileChangedSize +"</font></p></td>" +
+		    			"<td class=border_left ><p class=result_ok align='center'><font color='#00CD00'>"+ fileChangedSize +"</font></p></td>" +
 		    			"<td class=border_left ><p class=normal_text align='center'>"+ stepTime +"</p></td>" +
 		    			"</tr>";
 			}else if (tag.equals("Modify")) {
